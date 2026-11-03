@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0e12">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>SlideSmith</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237C9CFF'/%3E%3Cstop offset='1' stop-color='%23C08CFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 2l3.2 10.8L30 16l-10.8 3.2L16 30l-3.2-10.8L2 16l10.8-3.2z' fill='url(%23g)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/web/styles.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============================== HOME ============================== -->
+  <section id="home" class="view">
+    <header class="home-top">
+      <div class="brand"><span class="spark"></span>SlideSmith</div>
+      <div class="top-actions">
+        <button class="pill status-pill" id="homeStatus" data-action="settings"></button>
+        <button class="icon-btn phone-btn" data-action="phone" title="Open on your phone"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></button>
+        <button class="icon-btn" data-action="settings" title="Settings"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
+      </div>
+    </header>
+
+    <div class="hero">
+      <h1>What do you want to <span class="grad">present</span>?</h1>
+      <p class="sub">Describe your deck. SlideSmith designs it slide by slide, live — in your own template or one of ours.</p>
+
+      <form class="prompt-card" id="homeForm">
+        <textarea id="homePrompt" rows="3" placeholder="e.g. A 10-slide pitch deck for an AI tutoring app for high-school students, with market size, product, business model and roadmap"></textarea>
+        <div class="file-chips" id="homeFiles"></div>
+        <div class="prompt-row">
+          <button type="button" class="chip-btn" id="homeTheme" data-action="pick-theme-home"><span class="swatch"></span><span class="label">Midnight</span><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+          <label class="icon-btn ghost" title="Attach source documents (PDF, DOCX, PPTX, TXT)">
+            <input type="file" id="homeAttach" multiple accept=".pdf,.docx,.pptx,.txt,.md,.csv,.json,.xlsx,.xlsm" hidden>
+            <svg viewBox="0 0 24 24"><path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"/></svg>
+          </label>
+          <span class="spacer"></span>
+          <button type="submit" class="primary-btn" id="homeGo">Generate <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+      </form>
+
+      <div class="examples" id="examples"></div>
+    </div>
+
+    <div class="home-section">
+      <div class="section-head"><h2>Templates</h2><button class="link-btn" data-action="upload-template">+ Upload your template (.pptx)</button></div>
+      <div class="theme-strip" id="themeStrip"></div>
+    </div>
+
+    <div class="home-section" id="recentSection">
+      <div class="section-head"><h2>Recent decks</h2></div>
+      <div class="recent-grid" id="recentGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================== WORKSPACE ============================== -->
+  <section id="workspace" class="view" hidden>
+    <header class="topbar">
+      <button class="icon-btn" data-action="home" title="All decks"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="brand small"><span class="spark"></span></div>
+      <input class="title-input" id="projectName" spellcheck="false">
+      <span class="spacer"></span>
+      <button class="pill status-pill" id="wsStatus" data-action="settings"></button>
+      <button class="icon-btn phone-btn" data-action="phone" title="Open on your phone"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></button>
+      <button class="chip-btn" id="wsTheme" data-action="pick-theme"><span class="swatch"></span><span class="label">Theme</span><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button class="icon-btn" data-action="shuffle" id="shuffleBtn" title="Shuffle design — same content, a completely new look"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/></svg></button>
+      <button class="icon-btn" data-action="undo" id="undoBtn" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+      <button class="icon-btn" data-action="history" title="Version history"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></button>
+      <div class="menu-wrap">
+        <button class="ghost-btn" data-action="present"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Present</button>
+        <button class="ghost-btn caret" data-action="menu" data-menu="presentMenu" title="Presentation options"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="menu" id="presentMenu" hidden>
+          <div class="menu-label">Transition</div>
+          <div class="seg" id="transSeg"><button data-trans="none">None</button><button data-trans="fade">Fade</button><button data-trans="push">Push</button><button data-trans="zoom">Zoom</button><button data-trans="prezi">Prezi</button></div>
+          <label class="menu-check"><input type="checkbox" id="buildsChk" checked> Animate content in (builds)</label>
+          <button data-action="presenter">Presenter view (notes + timer)</button>
+          <div class="menu-hint">While presenting: ← → navigate · O overview · N notes · L laser · B black screen · P presenter</div>
+        </div>
+      </div>
+      <div class="menu-wrap">
+        <button class="primary-btn" data-action="menu" data-menu="exportMenu"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Export</button>
+        <div class="menu right" id="exportMenu" hidden>
+          <button data-action="export"><b>PowerPoint</b><span>Editable .pptx with native charts, notes and transitions</span></button>
+          <button data-action="export-pdf"><b>PDF</b><span>Opens the print dialog — choose "Save as PDF"</span></button>
+          <button data-action="export-html"><b>Web presentation</b><span>One .html file that plays anywhere — share it by email or chat</span></button>
+          <button data-action="export-png"><b>Slide image</b><span>PNG of the selected slide</span></button>
+        </div>
+      </div>
+    </header>
+
+    <div class="ws-body">
+      <aside class="chat">
+        <div class="chat-log" id="chatLog"></div>
+        <div class="suggestions" id="suggestions"></div>
+        <form class="composer" id="composer">
+          <div class="file-chips" id="ctxChips"></div>
+          <textarea id="prompt" rows="1" placeholder="Describe a change, or select slides on the canvas…"></textarea>
+          <div class="composer-row">
+            <label class="icon-btn ghost" title="Attach source documents">
+              <input type="file" id="attach" multiple accept=".pdf,.docx,.pptx,.txt,.md,.csv,.json,.xlsx,.xlsm" hidden>
+              <svg viewBox="0 0 24 24"><path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 1 1-2.8-2.8l8.5-8.5"/></svg>
+            </label>
+            <span class="hint" id="composerHint">Enter to send · Shift+Enter for a new line</span>
+            <span class="spacer"></span>
+            <button type="submit" class="send-btn" id="sendBtn" title="Send"><svg viewBox="0 0 24 24"><path d="M12 19V5m0 0-6 6m6-6 6 6"/></svg></button>
+          </div>
+        </form>
+      </aside>
+
+      <main class="canvas-wrap">
+        <div class="canvas" id="canvas"><div class="board" id="board"></div></div>
+        <div class="canvas-empty" id="canvasEmpty">
+          <div class="empty-orb"></div>
+          <p>Your slides will appear here as they're designed.</p>
+        </div>
+        <div class="build-pill" id="buildPill" hidden><span class="dot"></span><span id="buildText">Working…</span></div>
+        <aside class="editor" id="editor" hidden></aside>
+        <div class="canvas-tools">
+          <button class="icon-btn" data-action="add-slide" title="Add a slide"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 9v6M9 12h6"/></svg></button>
+          <span class="sep"></span>
+          <button class="icon-btn" data-action="zoom-out" title="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+          <button class="zoom-label" data-action="zoom-fit" id="zoomLabel" title="Fit to screen">100%</button>
+          <button class="icon-btn" data-action="zoom-in" title="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+          <span class="sep"></span>
+          <button class="icon-btn" data-action="toggle-follow" id="followBtn" title="Follow the AI while it builds"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+          <button class="icon-btn" data-action="toggle-layout" id="layoutBtn" title="Grid / filmstrip"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+        </div>
+      </main>
+    </div>
+    <nav class="mtabs" id="mtabs">
+      <button data-mtab="chat" class="on"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg><span>Chat</span><i class="dot" hidden></i></button>
+      <button data-mtab="slides"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg><span>Slides</span><b id="mtabCount"></b></button>
+      <button data-action="present"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span>Present</span></button>
+    </nav>
+  </section>
+
+  <!-- ============================== MODALS ============================== -->
+  <div class="modal" id="themeModal" hidden>
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <div><h3>Choose a design</h3><p class="muted">Pick a built-in theme or upload your own PowerPoint template — slides are generated inside its layouts, colors and fonts.</p></div>
+        <button class="icon-btn" data-action="close-modal"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div class="theme-grid" id="themeGrid"></div>
+      <div class="inspector" id="inspector" hidden></div>
+    </div>
+  </div>
+
+  <div class="modal" id="settingsModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><h3>AI connection</h3><p class="muted">Any OpenAI-compatible endpoint. Saved to the local <code>.env</code> file.</p></div>
+        <button class="icon-btn" data-action="close-modal"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <form id="settingsForm" class="form">
+        <label>Base URL <input name="base_url" placeholder="http://40.81.235.1:20128/v1" spellcheck="false"></label>
+        <label>API key <input name="api_key" type="password" autocomplete="off" placeholder="Leave blank to keep the current key"></label>
+        <label>Model
+          <div class="row"><input name="model" list="modelList" placeholder="auto (first model from /models) — or 'demo'" spellcheck="false"><button type="button" class="ghost-btn" data-action="fetch-models">Fetch models</button></div>
+          <datalist id="modelList"></datalist>
+        </label>
+        <label class="check"><input type="checkbox" name="review"> <span>Let the AI <b>look at every slide</b> after building it and fix problems — slower, better results</span></label>
+        <label>Review model (sees slide images) <input name="review_model" list="modelList" placeholder="auto — picks a vision model such as auto/best-vision" spellcheck="false"></label>
+        <p class="form-msg" id="settingsMsg"></p>
+        <div class="form-actions"><button type="button" class="ghost-btn" data-action="close-modal">Cancel</button><button class="primary-btn" type="submit">Save</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="phoneModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><h3>Open on your phone</h3><p class="muted">Use SlideSmith from a phone or tablet on the same Wi-Fi as this PC.</p></div>
+        <button class="icon-btn" data-action="close-modal"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div id="phoneBody" class="phone-body"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="pickerModal" hidden>
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <div><h3>Choose a photo</h3><p class="muted">Free Creative Commons photos from Openverse (credits are added for you) — or upload your own.</p></div>
+        <button class="icon-btn" data-action="close-modal"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div class="picker-bar"><input id="pickQuery" placeholder="Search photos, e.g. team meeting in an office"><button class="primary-btn" id="pickGo" type="button">Search</button>
+        <label class="ghost-btn">Upload your own<input type="file" id="pickUpload" accept="image/*" hidden></label></div>
+      <div class="pick-grid" id="pickGrid"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="historyModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><h3>Version history</h3><p class="muted">A snapshot is saved before every AI change and manual edit. Restoring keeps a copy of the current version too.</p></div>
+        <button class="icon-btn" data-action="close-modal"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div id="historyList" class="history"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="brandModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><h3>Create a brand kit</h3><p class="muted">Your colors, fonts and logo become a theme. Every generated slide uses them.</p></div>
+        <button class="icon-btn" data-action="close-modal"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <form id="brandForm" class="form">
+        <label>Import from your website (optional)
+          <div class="row"><input name="url" placeholder="https://yourcompany.com"><button type="button" class="ghost-btn" id="brandImport">Import</button></div></label>
+        <label>Brand name <input name="name" placeholder="Acme"></label>
+        <div class="row">
+          <label style="flex:1">Primary color <input name="primary" type="color" value="#2563EB"></label>
+          <label style="flex:1">Secondary color <input name="secondary" type="color" value="#F59E0B"></label>
+          <label style="flex:1">Background <select name="mode"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+        </div>
+        <div class="row">
+          <label style="flex:1">Heading font <select name="heading" class="font-select"></select></label>
+          <label style="flex:1">Body font <select name="body" class="font-select"></select></label>
+          <label style="flex:1">Title style <select name="style"><option value="bar">Accent bar</option><option value="split">Split panel</option><option value="orb">Soft shapes</option><option value="frame">Frame</option></select></label>
+        </div>
+        <label>Logo (PNG/JPG, optional) <input name="logo" type="file" accept="image/*"></label>
+        <input name="logo_url" type="hidden">
+        <p class="form-msg" id="brandMsg"></p>
+        <div class="form-actions"><button type="button" class="ghost-btn" data-action="close-modal">Cancel</button><button class="primary-btn" type="submit">Create brand theme</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="present" id="present" hidden>
+    <div class="present-stage" id="presentStage"></div>
+    <div class="present-bar"><span id="presentCount"></span><span class="muted">← → to navigate · N notes · Esc to exit</span></div>
+    <div class="present-notes" id="presentNotes" hidden></div>
+  </div>
+
+  <input type="file" id="templateInput" accept=".pptx,.potx" hidden>
+  <div class="toasts" id="toasts"></div>
+</div>
+<script type="module" src="/web/app.js"></script>
+</body>
+</html>

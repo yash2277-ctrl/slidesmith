@@ -1,0 +1,17 @@
+__pycache__/
+nul
+~$*
+desktop.ini
+Thumbs.db
+gui-test-screenshots/
+chat_*.txt
+data/exports/
+data/_e2e/
+data/_bh_preview/
+data/_audit_*.png
+_t_*.pptx
+_t_*.png
+_audit*.png
+_audit*.pptx
+_audit*.txt
+node_modules/
